@@ -71,7 +71,7 @@ namespace MixinLibTest
 
         [ModifyConstant]
         [Target("MethodOne")]
-        [AtLoadConst("Hello, World!")]
+        [AtLoadConst("Hello, World!", Shift = 0)]
         public static string TestModifyConstant(string value)
         {
             return value + " -- injected --";

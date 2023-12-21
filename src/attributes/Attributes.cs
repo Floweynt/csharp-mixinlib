@@ -1,7 +1,9 @@
 namespace MixinLib.Attributes
 {
-    // a class that represents a reference to a "type"
-    // this can simply be a Type, or the name of the type
+    /// <summary>
+    /// A class that represents a reference to a "type."
+    /// This can simply be a Type, or the name of the type
+    /// </summary>
     public struct TypeDescriptor
     {
         public string? Name;
@@ -9,18 +11,22 @@ namespace MixinLib.Attributes
 
         public TypeDescriptor(Type Type) { this.Type = Type; }
         public TypeDescriptor(string Name) { this.Name = Name; }
-
-        public override readonly string ToString()
-        {
-            return Name ?? (Type ?? typeof(void)).FullName ?? "<bad>";
-        }
     };
 
-    // attribute that tells the MixinLib processor to treat the class as a mixin
+    /// <summary>
+    /// Attribute that tells the MixinLib processor to treat the class as a mixin
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = false)]
     sealed public class Mixin : Attribute
     {
+        /// <summary>
+        /// List of classes to inject into
+        /// </summary>
         public readonly TypeDescriptor[] Target;
+
+        /// <summary>
+        /// The default priority of this mixin
+        /// </summary>
         public int Priority = 0;
 
         public Mixin(params Type[] typeTarget)
@@ -32,14 +38,11 @@ namespace MixinLib.Attributes
         {
             Target = namedTarget.Select(u => new TypeDescriptor(u)).ToArray();
         }
-
-        public override string ToString()
-        {
-            return $"[Mixin({Target}, Priority = {Priority})]";
-        }
     }
 
-    // how we should fail if a target/selector does not match
+    /// <summary>
+    /// How MixinLib should fail if a target/selector does not match
+    /// </summary>
     public enum SelectFailureMode
     {
         FAIL_EXCEPTION,
@@ -47,8 +50,10 @@ namespace MixinLib.Attributes
         FAIL_SOFT,
     };
 
-    // tells an injector that it should target a specific method
-    // this is required for all injectors!
+    /// <summary>
+    /// Tells an injector that it should target a specific method.
+    /// This is required for all injectors!
+    /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = false)]
     sealed public class Target : Attribute
     {

@@ -38,8 +38,8 @@ namespace MixinLib.Internal.Processor
         {
             var inst = (AtInvoke)info.Instance;
 
-            if (info.Target.OpCode == OpCodes.Call && inst.Staticness.HasFlag(AtInvoke.FunctionType.Static) ||
-                info.Target.OpCode == OpCodes.Callvirt && inst.Staticness.HasFlag(AtInvoke.FunctionType.Member))
+            if (info.Target.OpCode == OpCodes.Call && inst.CallType.HasFlag(AtInvoke.CallInstrType.CALL) ||
+                info.Target.OpCode == OpCodes.Callvirt && inst.CallType.HasFlag(AtInvoke.CallInstrType.CALLVIRT))
             {
                 var operands = (MethodReference)info.Target.Operand!;
                 var parameters = operands.Parameters;
